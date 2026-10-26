@@ -45,6 +45,18 @@ public class UserModel {
         }
     }
 
+    public UserModel() {}
+    
+    public UserModel(String firstName, String lastName,
+                     String email, String password,
+                     LocalDate birthDate) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.birthDate = birthDate;
+    }
+
     public Long getId() {
         return id;
     }
