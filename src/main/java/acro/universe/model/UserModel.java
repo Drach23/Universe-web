@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -24,7 +26,8 @@ public class UserModel {
     @Column(nullable = false)
     private String password;
 
-    private String profilePicture;
+    @Column(name = "profile_picture_url")
+    private String profilePictureUrl;
 
     @Column(length = 500)
     private String biography;
@@ -38,6 +41,9 @@ public class UserModel {
     @Column(nullable = false)
     private Boolean status = true;
 
+    @OneToMany(mappedBy = "seller")
+    private List<ProductModel> products = new ArrayList<>();
+
     @PrePersist
     protected void onCreate() {
         if (registrationDate == null) {
@@ -46,7 +52,7 @@ public class UserModel {
     }
 
     public UserModel() {}
-    
+
     public UserModel(String firstName, String lastName,
                      String email, String password,
                      LocalDate birthDate) {
@@ -93,12 +99,12 @@ public class UserModel {
         this.password = password;
     }
 
-    public String getProfilePicture() {
-        return profilePicture;
+    public String getProfilePictureUrl() {
+        return profilePictureUrl;
     }
 
-    public void setProfilePicture(String profilePicture) {
-        this.profilePicture = profilePicture;
+    public void setProfilePictureUrl(String profilePictureUrl) {
+        this.profilePictureUrl = profilePictureUrl;
     }
 
     public String getBiography() {
@@ -132,4 +138,6 @@ public class UserModel {
     public void setStatus(Boolean status) {
         this.status = status;
     }
+
+
 }

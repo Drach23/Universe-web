@@ -1,11 +1,12 @@
 package acro.universe.service;
 
+import acro.universe.exception.ErrorMessages;
+import acro.universe.exception.ResourceNotFoundException;
 import acro.universe.model.UserModel;
 import acro.universe.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 @Service
 public class UserService {
 
@@ -21,8 +22,8 @@ public class UserService {
 
     public UserModel findUserById(Long id) {
         return userRepository.findById(id).orElseThrow(
-                () -> new RuntimeException(
-                        "user not found: " + id
+                () -> new ResourceNotFoundException(
+                        String.format(ErrorMessages.USER_NOT_FOUND, id)
                 )
         );
     }
@@ -37,7 +38,9 @@ public class UserService {
 
     public void deleteUserById(Long id) {
         if (!userRepository.existsById(id)) {
-            throw new RuntimeException("User with id " + id + " does not exist");
+            throw new ResourceNotFoundException(
+                    String.format(ErrorMessages.USER_NOT_FOUND, id)
+            );
         }
         userRepository.deleteById(id);
     }
